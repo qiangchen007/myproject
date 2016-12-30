@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #coding=utf-8
 '''
-Created on 2016-12-01
+Created on 2016-10-01
 @author:chenqiang
 '''
 import sys
@@ -112,7 +112,7 @@ def queuein_PK(tab1,pk0,step,queue):
     cr2=ora_client(options.orastring).cursor()  
     while (pk_high<pk_max) :  
         sql_PKhigh="select max(%s) from \
-                        (select %s from (select %s from SLPROD.%s where %s > %d  order by %s ) \
+                        (select %s from (select %s from %s where %s > %d  order by %s ) \
                             where ROWNUM <= %d ) " %(pk0,pk0,pk0,tab1,pk0,pk_low,pk0,step)
         cr2.execute(sql_PKhigh)
         pk_high=cr2.fetchone()[0]
@@ -138,7 +138,7 @@ def column_list(tab1):
     comma=','
     options = get_cli_options()
     cr=ora_client(options.orastring).cursor()
-    sql_tab1="select * from SLPROD.%s where 1=2 " %(tab1)
+    sql_tab1="select * from %s where 1=2 " %(tab1)
     cr.execute(sql_tab1)
     for desc in cr.description :
         if desc[0] not in rawcols_list():
@@ -155,7 +155,7 @@ def export_data(thread_seq,tab1,pk0,queue,tab2):
         (low,high)=queue.get()
         options = get_cli_options()
         orasor=ora_client(options.orastring).cursor()
-        forsql="select %s from SLPROD.%s where %s > %d and %s <= %d order by %s " %(columns,tab1,pk0,low,pk0,high,pk0) 
+        forsql="select %s from %s where %s > %d and %s <= %d order by %s " %(columns,tab1,pk0,low,pk0,high,pk0) 
         mysor=to_client(options.host).cursor()
         tosql ="insert into %s(%s) values" %(tab2,columns) 
         counter=0
