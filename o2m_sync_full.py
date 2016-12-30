@@ -57,7 +57,7 @@ def get_cli_options():
 def ora_client(orastring):
     try:
         os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.AL32UTF8'
-        oracon = cx_Oracle.connect(user='logminer', password='logIner2017', dsn=orastring,threaded=True)
+        oracon = cx_Oracle.connect(user='username', password='password', dsn=orastring,threaded=True)
     except  cx_Oracle.Error,e:
         print "Error %s" %(e.args[0])
         exit(1)
